@@ -68,7 +68,7 @@ let layoutDirectory = (layoutDirectoryInput, layoutDirectoryElement) => layoutDi
       layoutDirectoryPath += layoutDirectoryPathCurrentElement.dataset.path + "/";
       layoutDirectoryPathCurrentElement = layoutDirectoryPathCurrentElement.parentElement.parentElement;
     };
-    layoutDirectoryItemMarkdownContainer.innerHTML = DOMPurify.sanitize(marked.parse(await (await fetch("/expressDocsMarkdownAssets/" + layoutDirectoryPath + layoutDirectoryInputItem[0])).text()));
+    layoutDirectoryItemMarkdownContainer.innerHTML = DOMPurify.sanitize(((options.includes("customMarkdownParser")) ? async (markdownDocumentationContent) => eval("(async (customMarkdownDocumentationContent) => (" + await (await fetch("/expressDocsAssets/customMarkdownParser.js")).text() + ")(customMarkdownDocumentationContent))(`" + markdownDocumentationContent + "`);") : marked.parse)(await (await fetch("/expressDocsMarkdownAssets/" + layoutDirectoryPath + layoutDirectoryInputItem[0])).text()));
     layoutDirectoryItemMarkdownContainer.style.display = (document.getElementById("markdownDocumentationContainer").children.length) ? "none" : "block";
     Array.from(layoutDirectoryItemMarkdownContainer.getElementsByTagName("source")).forEach((sourceElement) => {
       sourceElement.media = "(prefers-color-scheme: white)";
@@ -80,3 +80,21 @@ let layoutDirectory = (layoutDirectoryInput, layoutDirectoryElement) => layoutDi
 
 layoutDirectory(directoryLayout, document.getElementById("directoryLayoutContainer"));
 hljs.highlightAll();
+
+if (options.includes("customHTML")) {
+  fetch("/expressDocsAssets/customHTML.html")
+  .then((response) => response.text())
+  .then((response) => {
+    let customHTMLContainer = document.createElement("div");
+    customHTMLContainer.innerHTML = response;
+    document.body.appendChild(customHTMLContainer);
+  });
+};
+
+if (options.includes("customCode")) {
+  fetch("/expressDocsAssets/customCode.js")
+  .then((response) => response.text())
+  .then((response) => {
+    eval("(async () => (" + response + ")())();");
+  });
+};
