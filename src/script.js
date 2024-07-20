@@ -68,7 +68,7 @@ let layoutDirectory = (layoutDirectoryInput, layoutDirectoryElement) => layoutDi
       layoutDirectoryPath += layoutDirectoryPathCurrentElement.dataset.path + "/";
       layoutDirectoryPathCurrentElement = layoutDirectoryPathCurrentElement.parentElement.parentElement;
     };
-    layoutDirectoryItemMarkdownContainer.innerHTML = DOMPurify.sanitize(((options.includes("customMarkdownParser")) ? async (markdownDocumentationContent) => eval("(async (customMarkdownDocumentationContent) => (" + (await (await fetch("/expressDocsAssets/customMarkdownParser.js")).text()) + ")(customMarkdownDocumentationContent))(`" + markdownDocumentationContent + "`);") : marked.parse)(await (await fetch("/expressDocsMarkdownAssets/" + layoutDirectoryPath + layoutDirectoryInputItem[0])).text()));
+    layoutDirectoryItemMarkdownContainer.innerHTML = DOMPurify.sanitize(((options.includes("customMarkdownParser")) ? async (markdownDocumentationContent) => eval("(async (customMarkdownDocumentationContent) => (" + (await (await fetch("/expressDocsAssets/customMarkdownParser.js")).text()) + ")(customMarkdownDocumentationContent))('" + markdownDocumentationContent.replace("'", "\'") + "');") : marked.parse)(await (await fetch("/expressDocsMarkdownAssets/" + layoutDirectoryPath + layoutDirectoryInputItem[0])).text()));
     layoutDirectoryItemMarkdownContainer.style.display = (document.getElementById("markdownDocumentationContainer").children.length) ? "none" : "block";
     Array.from(layoutDirectoryItemMarkdownContainer.getElementsByTagName("source")).forEach((sourceElement) => {
       sourceElement.media = "(prefers-color-scheme: white)";
