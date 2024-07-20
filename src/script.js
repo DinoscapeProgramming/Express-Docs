@@ -70,7 +70,7 @@ let layoutDirectory = (layoutDirectoryInput, layoutDirectoryElement) => layoutDi
     };
     layoutDirectoryItemMarkdownContainer.innerHTML = DOMPurify.sanitize(await (((options.includes("customMarkdownParser")) ? async (markdownDocumentationContent) => eval("(async (customMarkdownDocumentationContent) => (" + (await (await fetch("/expressDocsAssets/customMarkdownParser.js")).text()) + ")(customMarkdownDocumentationContent))(`" + markdownDocumentationContent.replace(/`/g, "\\`") + "`);") : marked.parse)(await (await fetch("/expressDocsMarkdownAssets/" + layoutDirectoryPath + layoutDirectoryInputItem[0])).text())));
     layoutDirectoryItemMarkdownContainer.style.display = (document.getElementById("markdownDocumentationContainer").children.length) ? "none" : "block";
-    hljs.highlightElement(layoutDirectoryItemMarkdownContainer);
+    hljs.highlightAll();
     Array.from(layoutDirectoryItemMarkdownContainer.getElementsByTagName("source")).forEach((sourceElement) => {
       sourceElement.media = "(prefers-color-scheme: white)";
     });
