@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= name || title %></title>
+    <script defer>
+      const directoryLayout = JSON.parse("<%= directoryLayout %>".replaceAll("&#34;", '"'));
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/marked@13.0.2/marked.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script defer src="/expressDocsAssets/script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="icon" href="/expressDocsAssets/favicon.<%= faviconFileExtension %>" />
+    <style>
+      .searchBarButton:hover {
+        background-color: #d9d9d9 !important;
+      }
+
+      .layoutDirectoryInputItemFileButton:hover {
+        color: #5623db !important;
+      }
+
+      @-webkit-keyframes animateDown {
+        from {
+          transform: rotate(45deg);
+        } 
+        to {
+          transform: rotate(135deg);
+        }
+      }
+
+      @keyframes animateDown {
+        from {
+          transform: rotate(45deg);
+        }
+        to {
+          transform: rotate(135deg);
+        }
+      }
+
+      @-webkit-keyframes animateRight {
+        from {
+          transform: rotate(135deg);
+        } 
+        to {
+          transform: rotate(45deg);
+        }
+      }
+
+      @keyframes animateRight {
+        from {
+          transform: rotate(135deg);
+        }
+        to {
+          transform: rotate(45deg);
+        }
+      }
+    </style>
+  </head>
+  <body style="margin: 0; display: flex; flex-direction: row">
+    <div
+      style="
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        width: 280px;
+        height: 100vh;
+        border-right: 1px solid #dbdbdb;
+      "
+    >
+      <div style="padding: 10px; border-bottom: 1px solid #dbdbdb">
+        <img
+          src="/expressDocsAssets/logo.<%= logoFileExtension %>"
+          style="width: 260px"
+        />
+        <button
+          class="searchBarButton"
+          style="
+            cursor: pointer;
+            width: 100%;
+            height: 31.5px;
+            background-color: #e1e1e1;
+            border-radius: 7.5px;
+            border: none;
+            margin-top: 1px;
+            opacity: 0.95;
+          "
+        >
+          Search...
+        </button>
+      </div>
+      <div
+        id="directoryLayoutContainer"
+        style="display: flex; flex-direction: column; padding-top: 10px; overflow-y: auto"
+      ></div>
+    </div>
+    <div id="markdownDocumentationContainer" style="font-family: system-ui; padding: 50px 75px; margin-left: 280px; overflow-x: hidden; opacity: 0.8"></div>
+  </body>
+</html>
