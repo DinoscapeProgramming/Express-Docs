@@ -121,7 +121,7 @@ This software uses the following open source packages:
 ## You may also like...
 
 
-- [Remote Control](https://github.com/DinoscapeProgramming/Remote-Control) - An advanced, but easy-to-use Remote Desktop Application Program which has cross-platform support
+- [Remote Control](https://github.com/DinoscapeProgramming/Remote-Control) - An advanced, but easy-to-use Remote Desktop Application Program
 - [Youtube Offline](https://github.com/DinoscapeProgramming/Youtube-Offline) - A lightweight YouTube video downloader
 - [Appify](https://github.com/DinoscapeProgramming/Appify) - A tiny tool that allows you to turn your website into an app
 - [Meetings](https://github.com/DinoscapeProgramming/Meetings) - A meetings app with lots of features
