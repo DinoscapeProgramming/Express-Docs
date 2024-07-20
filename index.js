@@ -14,8 +14,8 @@ let layoutDirectory = (directory) => fs.readdirSync(directory).map((directoryIte
 ]);
 
 module.exports = (app, { title, favicon, logo, directory, options: { customMarkdownParser, customHTML, customCode, customStyle } = {} } = {}) => {
-  fs.createReadStream(logo).pipe(fs.createWriteStream("./node_modules/express-documentation/src/logo." + logo.split(".").at(-1)));
   fs.createReadStream(favicon).pipe(fs.createWriteStream("./node_modules/express-documentation/src/favicon." + favicon.split(".").at(-1)));
+  fs.createReadStream(logo).pipe(fs.createWriteStream("./node_modules/express-documentation/src/logo." + logo.split(".").at(-1)));
   if (customMarkdownParser) fs.writeFileSync("./node_modules/express-documentation/src/customMarkdownParser.js", customMarkdownParser.toString(), "utf8");
   if (customHTML) fs.writeFileSync("./node_modules/express-documentation/src/customHTML.html", customHTML, "utf8");
   if (customCode) fs.writeFileSync("./node_modules/express-documentation/src/customCode.js", customCode.toString(), "utf8");
