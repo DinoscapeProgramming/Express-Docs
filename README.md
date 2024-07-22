@@ -48,12 +48,12 @@ app.use("/docs", expressDocs(app));
 
 **This will use the default parameters for Express Docs:**
 
-| Parameter | Default Value |
-| --- | --- |
-| 📲 Title | `productName`; `name`; `"Documentation"` |
-| 🎨 Favicon | `"./favicon.ico"` |
-| ⏱️ Logo | `"./logo.png"` |
-| 👨‍💻 Directory | `"./docs"` |
+| Parameter | Default Value | Accepted Object Types |
+| --- | --- | --- |
+| 📲 Title | `productName`; `name`; `"Documentation"` | `string` |
+| 🎨 Favicon | `"./favicon.ico"` | `path`; `URL` |
+| ⏱️ Logo | `"./logo.png"` | `path`; `URL` |
+| 👨‍💻 Directory | `"./docs"` | `path` |
 
 <br />
 
@@ -62,8 +62,8 @@ app.use("/docs", expressDocs(app));
 app.use("/docs", expressDocs(app, {
   title: "Express Docs Demo",
   favicon: "./assets/favicon.ico",
-  logo: "./assets/logo.png",
-  directory: "./assets/docs"
+  logo: "./assets/logo.png" || "https://raw.githubusercontent.com/DinoscapeProgramming/Remote-Control/main/server/assets/logo.svg",
+  directory: "./assets/docs" || "https://raw.githubusercontent.com/DinoscapeProgramming/Remote-Control/main/server/assets/favicon.ico"
 }));
 ```
 
