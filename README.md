@@ -46,22 +46,40 @@ Express Docs should be used as middleware in Express.js at the path where you wa
 app.use("/docs", expressDocs(app));
 ```
 
-This will use the default parameters for Express Docs:
+**This will use the default parameters for Express Docs:**
 
 | Parameter | Default Value |
 | --- | --- |
-| 📲 Title | `productName` of `package.json`; `name` of `package.json`; `"Documentation"` |
-| 🎨 Favicon | `./favicon.ico` |
-| ⏱️ Logo | `./logo.png` |
-| 👨‍💻 Directory | `./docs` |
+| 📲 Title | `productName`; `name`; `"Documentation"` |
+| 🎨 Favicon | `"./favicon.ico"` |
+| ⏱️ Logo | `"./logo.png"` |
+| 👨‍💻 Directory | `"./docs"` |
 
-**All of these value should be modified like this**
+**All of these value should be modified like this:**
 ```js
 app.use("/docs", expressDocs(app, {
   title: "Express Docs Demo",
   favicon: "./assets/favicon.ico",
   logo: "./assets/logo.png",
   directory: "./assets/docs"
+}));
+```
+**Additional options include:**
+| Optional Parameter |
+| --- |
+| 📲 Custom Markdown Parser |
+| 🎨 Custom HTML |
+| ⏱️ Custom Code |
+| 👨‍💻 Custom Style |
+
+```js
+app.use("/docs", expressDocs(app, {
+  options: {
+    customMarkdownParser: () => {}, // --> return value in plain HTML
+    customHTML: ``, // --> plain HTML,
+    customCode: () => {}, // --> JavaScript function
+    customStyle: `` // --> plain CSS
+  }
 }));
 ```
 
@@ -106,14 +124,14 @@ app.use("/", expressDocs(app, {
 > **Note**
 > If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 >
-> If you're not using Windows, change the ```./node_modules/electron-remote-control/client/package.json``` file accordingly to [this guide](https://www.electron.build/index.html/).
+> If you're not using Windows, change the ```./node_modules/express-documentation/package.json``` file accordingly to [this guide](https://www.electron.build/index.html/).
 
 ## Credits
 
 This software uses the following open source packages:
 
-- [Express.js](https://github.com/expressjs/express)
 - [Node.js](https://nodejs.org)
+- [Express.js](https://github.com/expressjs/express)
 - [EJS](https://ejs.co)
 
 ## Support
