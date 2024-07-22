@@ -55,6 +55,8 @@ app.use("/docs", expressDocs(app));
 | ⏱️ Logo | `"./logo.png"` |
 | 👨‍💻 Directory | `"./docs"` |
 
+<br />
+
 **All of these value should be modified like this:**
 ```js
 app.use("/docs", expressDocs(app, {
@@ -64,6 +66,7 @@ app.use("/docs", expressDocs(app, {
   directory: "./assets/docs"
 }));
 ```
+
 **Additional options include:**
 | Optional Parameter |
 | --- |
@@ -71,6 +74,8 @@ app.use("/docs", expressDocs(app, {
 | 🎨 Custom HTML |
 | ⏱️ Custom Code |
 | 👨‍💻 Custom Style |
+
+<br />
 
 ```js
 app.use("/docs", expressDocs(app, {
@@ -83,7 +88,7 @@ app.use("/docs", expressDocs(app, {
 }));
 ```
 
-The default markdown parser uses Marked and all contents of the markdown parser, no matter which, are being sanitized with DOMPurify.**
+The default markdown parser uses Marked and all contents of the markdown parser, no matter which, are being sanitized with DOMPurify.
 
 ### Example Documentation with dark mode
 To build and open your own installable, you'll need [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
