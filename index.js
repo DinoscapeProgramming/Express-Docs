@@ -14,8 +14,17 @@ let layoutDirectory = (directory) => fs.readdirSync(directory).map((directoryIte
 ]);
 
 module.exports = (app, { title, favicon, logo, directory, options: { customMarkdownParser, customHTML, customCode, customStyle } = {} } = {}) => {
-  fs.createReadStream(favicon || "./favicon.ico").pipe(fs.createWriteStream("./node_modules/express-documentation/src/favicon." + favicon.split(".").at(-1)));
-  fs.createReadStream(logo || "logo.png").pipe(fs.createWriteStream("./node_modules/express-documentation/src/logo." + logo.split(".").at(-1)));
+  let isValidURL = (urlString) => {
+		let url;
+		try { 
+      url = new URL(urlString); 
+    } catch { 
+      return false; 
+    };
+    return ["http:", "https:"].includes(url.protocol);
+	};
+  if (!isValidURL(favicon)) fs.createReadStream(favicon || "./favicon.ico").pipe(fs.createWriteStream("./node_modules/express-documentation/src/favicon." + favicon.split(".").at(-1)));
+  if (!isValidURL(logo)) fs.createReadStream(logo || "logo.png").pipe(fs.createWriteStream("./node_modules/express-documentation/src/logo." + logo.split(".").at(-1)));
   if (customMarkdownParser) fs.writeFileSync("./node_modules/express-documentation/src/customMarkdownParser.js", customMarkdownParser.toString(), "utf8");
   if (customHTML) fs.writeFileSync("./node_modules/express-documentation/src/customHTML.html", customHTML, "utf8");
   if (customCode) fs.writeFileSync("./node_modules/express-documentation/src/customCode.js", customCode.toString(), "utf8");
@@ -27,8 +36,8 @@ module.exports = (app, { title, favicon, logo, directory, options: { customMarkd
   return (req, res, next) => {
     res.render("node_modules/express-documentation/src/index.ejs", {
       title: title || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).productName || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).name.split("-").map((namePiece) => namePiece[0].toUpperCase() + namePiece.slice(1)) || "Documentation",
-      faviconFileExtension: (favicon || "./favicon.ico").split(".").at(-1),
-      logoFileExtension: (logo || "logo.png").split(".").at(-1),
+      [(isValidURL(favicon)) ? "faviconURL" : "faviconFileExtension"]: (isValidURL(favicon)) ? favicon : (favicon || "./favicon.ico").split(".").at(-1),
+      [(isValidURL(logo)) ? "logoURL" : "logoFileExtension"]: (isValidURL(logo)) ? logo: (logo || "logo.png").split(".").at(-1),
       directoryLayout: JSON.stringify(layoutDirectory(directory || "./docs")),
       options: JSON.stringify([
         ...(customMarkdownParser) ? [
