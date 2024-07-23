@@ -25,6 +25,7 @@
 <p align="center">
   <a href="#how-to-use">How To Use</a> •
   <a href="#credits">Credits</a> •
+  <a href="#support">Support</a> •
   <a href="#license">License</a>
 </p>
 
@@ -57,7 +58,7 @@ app.use("/docs", expressDocs(app));
 
 <br />
 
-**All of these value should be modified like this:**
+**All of these values should be modified like this:**
 ```js
 app.use("/docs", expressDocs(app, {
   title: "Express Docs Demo",
@@ -88,7 +89,7 @@ app.use("/docs", expressDocs(app, {
 }));
 ```
 
-The default markdown parser uses Marked and all contents of the markdown parser, no matter which, are being sanitized with DOMPurify.
+The default markdown parser uses [Marked](https://github.com/markedjs/marked) and all contents of the markdown parser, no matter which, are being sanitized with [DOMPurify](https://github.com/cure53/DOMPurify).
 
 ### Example Documentation with Dark Mode
 To build and open your own installable, you'll need [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
