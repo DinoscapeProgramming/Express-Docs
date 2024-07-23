@@ -90,7 +90,7 @@ app.use("/docs", expressDocs(app, {
 
 The default markdown parser uses Marked and all contents of the markdown parser, no matter which, are being sanitized with DOMPurify.
 
-### Example Documentation with dark mode
+### Example Documentation with Dark Mode
 To build and open your own installable, you'll need [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
 
 ```js
