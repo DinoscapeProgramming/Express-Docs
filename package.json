@@ -1,7 +1,7 @@
 {
   "name": "express-documentation",
   "productName": "Express Docs",
-  "version": "1.0.63",
+  "version": "1.0.64",
   "description": "An easy-to-use documentation site creator which is cross-compatible with Express.js",
   "main": "index.js",
   "scripts": {
