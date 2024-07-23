@@ -13,7 +13,7 @@ let layoutDirectory = (directory) => fs.readdirSync(directory).map((directoryIte
   ]
 ]);
 
-module.exports = (app, { title, favicon, logo, directory, options: { customMarkdownParser, customHTML, customCode, customStyle } = {} } = {}) => {
+module.exports = (app, { title, favicon, logo, directory, options: { security: { csp } = {}, analytics, customMarkdownParser, customHTML, customCode, customStyle, extensions } = {} } = {}) => {
   let isValidURL = (urlString) => {
 		let url;
 		try { 
@@ -23,6 +23,7 @@ module.exports = (app, { title, favicon, logo, directory, options: { customMarkd
     };
     return ["http:", "https:"].includes(url.protocol);
 	};
+  extensions.forEach(({ setup }) => setup());
   if (!isValidURL(favicon)) fs.createReadStream(favicon || "./favicon.ico").pipe(fs.createWriteStream("./node_modules/express-documentation/src/favicon." + favicon.split(".").at(-1)));
   if (!isValidURL(logo)) fs.createReadStream(logo || "logo.png").pipe(fs.createWriteStream("./node_modules/express-documentation/src/logo." + logo.split(".").at(-1)));
   if (customMarkdownParser) fs.writeFileSync("./node_modules/express-documentation/src/customMarkdownParser.js", customMarkdownParser.toString(), "utf8");
@@ -34,12 +35,15 @@ module.exports = (app, { title, favicon, logo, directory, options: { customMarkd
   app.use("/expressDocsAssets", express.static("node_modules/express-documentation/src"));
   app.use("/expressDocsMarkdownAssets", express.static(directory || "./docs"));
   return (req, res, next) => {
+    extensions.forEach(({ middleware }) => middleware());
+    if (options.security.csp) res.setHeader("Content-Security-Policy", csp);
     res.render("node_modules/express-documentation/src/index.ejs", {
       title: title || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).productName || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).name.split("-").map((namePiece) => namePiece[0].toUpperCase() + namePiece.slice(1)) || "Documentation",
       [(isValidURL(favicon)) ? "faviconURL" : "faviconFileExtension"]: (isValidURL(favicon)) ? favicon : (favicon || "./favicon.ico").split(".").at(-1),
       [(isValidURL(logo)) ? "logoURL" : "logoFileExtension"]: (isValidURL(logo)) ? logo: (logo || "logo.png").split(".").at(-1),
       directoryLayout: JSON.stringify(layoutDirectory(directory || "./docs")),
-      options: JSON.stringify([
+      analytics,
+      enabledOptions: JSON.stringify([
         ...(customMarkdownParser) ? [
           "customMarkdownParser"
         ] : [],

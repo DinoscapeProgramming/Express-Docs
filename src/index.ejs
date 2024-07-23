@@ -6,15 +6,21 @@
     <title><%= title %></title>
     <script defer>
       const directoryLayout = JSON.parse("<%= directoryLayout %>".replaceAll("&#34;", '"'));
-      const options = JSON.parse("<%= options %>".replaceAll("&#34;", '"'));
+      const analytics = "<%= analytics %>";
+      const enabledOptions = JSON.parse("<%= enabledOptions %>".replaceAll("&#34;", '"'));
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/marked@13.0.2/marked.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
     <script defer src="/expressDocsAssets/script.js"></script>
+    <% if (analytics) {
+      %>
+        <script async src="<%= 'https://www.googletagmanager.com/gtag/js?id=' + analytics %>"></script>
+      <%
+    }; %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <% if (options.includes("customStyle")) {
+    <% if (enabledOptions.includes("customStyle")) {
       %>
         <link rel="stylesheet" href="/expressDocsAssets/customStyle.css">
       <%
@@ -27,6 +33,10 @@
 
       .layoutDirectoryInputItemFileButton:hover {
         color: #5623db !important;
+      }
+
+      .markdownDocumentationContainer a {
+        text-decoration: none;
       }
 
       @-webkit-keyframes animateDown {

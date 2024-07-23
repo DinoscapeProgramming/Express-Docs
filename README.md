@@ -36,8 +36,11 @@
 To install this package, you'll need [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
 ```bash
-# Install this package
+# Using npm
 $ npm install express ejs express-documentation
+
+# Using yarn
+$ yarn add express ejs express-documentation
 ```
 
 ### Documentation

@@ -68,7 +68,7 @@ let layoutDirectory = (layoutDirectoryInput, layoutDirectoryElement) => layoutDi
       layoutDirectoryPath += layoutDirectoryPathCurrentElement.dataset.path + "/";
       layoutDirectoryPathCurrentElement = layoutDirectoryPathCurrentElement.parentElement.parentElement;
     };
-    layoutDirectoryItemMarkdownContainer.innerHTML = DOMPurify.sanitize(await (((options.includes("customMarkdownParser")) ? async (markdownDocumentationContent) => eval("(async (customMarkdownDocumentationContent) => (" + (await (await fetch("/expressDocsAssets/customMarkdownParser.js")).text()) + ")(customMarkdownDocumentationContent))(`" + markdownDocumentationContent.replace(/`/g, "\\`") + "`);") : marked.parse)(await (await fetch("/expressDocsMarkdownAssets/" + layoutDirectoryPath + layoutDirectoryInputItem[0])).text())));
+    layoutDirectoryItemMarkdownContainer.innerHTML = DOMPurify.sanitize(await (((enabledOptions.includes("customMarkdownParser")) ? async (markdownDocumentationContent) => eval("(async (customMarkdownDocumentationContent) => (" + (await (await fetch("/expressDocsAssets/customMarkdownParser.js")).text()) + ")(customMarkdownDocumentationContent))(`" + markdownDocumentationContent.replace(/`/g, "\\`") + "`);") : marked.parse)(await (await fetch("/expressDocsMarkdownAssets/" + layoutDirectoryPath + layoutDirectoryInputItem[0])).text())));
     layoutDirectoryItemMarkdownContainer.style.display = (document.getElementById("markdownDocumentationContainer").children.length) ? "none" : "block";
     Array.from(layoutDirectoryItemMarkdownContainer.getElementsByTagName("source")).forEach((sourceElement) => {
       sourceElement.media = "(prefers-color-scheme: white)";
@@ -81,7 +81,7 @@ let layoutDirectory = (layoutDirectoryInput, layoutDirectoryElement) => layoutDi
 
 layoutDirectory(directoryLayout, document.getElementById("directoryLayoutContainer"));
 
-if (options.includes("customHTML")) {
+if (enabledOptions.includes("customHTML")) {
   fetch("/expressDocsAssets/customHTML.html")
   .then((response) => response.text())
   .then((response) => {
@@ -91,10 +91,17 @@ if (options.includes("customHTML")) {
   });
 };
 
-if (options.includes("customCode")) {
+if (enabledOptions.includes("customCode")) {
   fetch("/expressDocsAssets/customCode.js")
   .then((response) => response.text())
   .then((response) => {
     eval("(async () => (" + response + ")())();");
   });
 };
+
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+  dataLayer.push(arguments);
+};
+gtag("js", new Date());
+gtag("config", analytics);
