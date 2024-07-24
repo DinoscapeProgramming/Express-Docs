@@ -74,20 +74,33 @@ app.use("/docs", expressDocs(app, {
 **Additional options include:**
 | Optional Parameter |
 | --- |
+| 🥷 Security (Content Security Policy) |
+| 🧭 Analytics |
 | 📲 Custom Markdown Parser |
 | 🎨 Custom HTML |
 | ⏱️ Custom Code |
 | 👨‍💻 Custom Style |
+| 💱 Extensions |
 
 <br />
 
 ```js
 app.use("/docs", expressDocs(app, {
   options: {
+    security: {
+      csp: `` // --> content security policy header
+    },
+    analytics: ``, // --> Google Analytics tracking id
     customMarkdownParser: () => {}, // --> return value in plain HTML
     customHTML: ``, // --> plain HTML,
     customCode: () => {}, // --> JavaScript function
-    customStyle: `` // --> plain CSS
+    customStyle: ``, // --> plain CSS
+    extensions: [
+      {
+        setup: () => {}, // --> executed on function call
+        middleware: () => {} // --> executed on returned function call
+      }
+    ]
   }
 }));
 ```
@@ -108,6 +121,10 @@ app.use("/", expressDocs(app, {
   logo: "./logo.png",
   directory: "./docs",
   options: {
+    security: {
+      csp: "default-src 'self'; script-src 'self' 'unsafe-inline';"
+    },
+    analytics: "UA-XXXXXXX-X",
     customMarkdownParser: (markdownContent) => `
       <div style="font-family: system-ui">${markdownContent}</div>
     `,
@@ -127,7 +144,10 @@ app.use("/", expressDocs(app, {
         background-color: #1c1c1c;
         invert(95%) hue-rotate(180deg);
       }
-    `
+    `,
+    extensions: [
+      require("exp")
+    ]
   }
 }));
 ```

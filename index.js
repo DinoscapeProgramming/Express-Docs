@@ -36,7 +36,7 @@ module.exports = (app, { title, favicon, logo, directory, options: { security: {
   app.use("/expressDocsMarkdownAssets", express.static(directory || "./docs"));
   return (req, res, next) => {
     extensions.forEach(({ middleware }) => middleware());
-    if (options.security.csp) res.setHeader("Content-Security-Policy", csp);
+    if (csp) res.setHeader("Content-Security-Policy", csp);
     res.render("node_modules/express-documentation/src/index.ejs", {
       title: title || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).productName || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).name.split("-").map((namePiece) => namePiece[0].toUpperCase() + namePiece.slice(1)) || "Documentation",
       [(isValidURL(favicon)) ? "faviconURL" : "faviconFileExtension"]: (isValidURL(favicon)) ? favicon : (favicon || "./favicon.ico").split(".").at(-1),
