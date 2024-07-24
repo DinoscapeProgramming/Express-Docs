@@ -146,7 +146,7 @@ app.use("/", expressDocs(app, {
       }
     `,
     extensions: [
-      require("exp")
+      require("express-docs-themes")("translucence")
     ]
   }
 }));
