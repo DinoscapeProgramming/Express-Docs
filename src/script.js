@@ -98,10 +98,3 @@ if (enabledOptions.includes("customCode")) {
     eval("(async () => (" + response + ")())();");
   });
 };
-
-window.dataLayer = window.dataLayer || [];
-function gtag() {
-  dataLayer.push(arguments);
-};
-gtag("js", new Date());
-gtag("config", analytics);
