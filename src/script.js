@@ -95,6 +95,6 @@ if (enabledOptions.includes("customCode")) {
   fetch("/expressDocsAssets/customCode.js")
   .then((response) => response.text())
   .then((response) => {
-    eval("(async () => (" + response + ")())();");
+    eval("(async () => {" + response + "})();");
   });
 };
