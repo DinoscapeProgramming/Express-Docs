@@ -23,7 +23,7 @@ module.exports = (app, { title, favicon, logo, directory, options: { security: {
     };
     return ["http:", "https:"].includes(url.protocol);
 	};
-  extensions.forEach(({ setup } = {}) => (setup || (() => {}))());
+  (extensions || []).forEach(({ setup } = {}) => (setup || (() => {}))());
   if (!isValidURL(favicon)) fs.createReadStream(favicon || "./favicon.ico").pipe(fs.createWriteStream("./node_modules/express-documentation/src/favicon." + favicon.split(".").at(-1)));
   if (!isValidURL(logo)) fs.createReadStream(logo || "logo.png").pipe(fs.createWriteStream("./node_modules/express-documentation/src/logo." + logo.split(".").at(-1)));
   if (customMarkdownParser) fs.writeFileSync("./node_modules/express-documentation/src/customMarkdownParser.js", customMarkdownParser.toString(), "utf8");
@@ -35,7 +35,7 @@ module.exports = (app, { title, favicon, logo, directory, options: { security: {
   app.use("/expressDocsAssets", express.static("node_modules/express-documentation/src"));
   app.use("/expressDocsMarkdownAssets", express.static(directory || "./docs"));
   return (req, res, next) => {
-    extensions.forEach(({ middleware } = {}) => (middleware || (() => {}))());
+    (extensions || []).forEach(({ middleware } = {}) => (middleware || (() => {}))());
     if (csp) res.setHeader("Content-Security-Policy", csp);
     res.render("node_modules/express-documentation/src/index.ejs", {
       title: title || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).productName || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).name.split("-").map((namePiece) => namePiece[0].toUpperCase() + namePiece.slice(1)) || "Documentation",
