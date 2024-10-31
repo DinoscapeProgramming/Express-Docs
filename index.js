@@ -13,7 +13,7 @@ let layoutDirectory = (directory) => fs.readdirSync(directory).map((directoryIte
   ]
 ]);
 
-module.exports = (app, { title, favicon, logo, directory, options: { security: { csp } = {}, analytics, customMarkdownParser, customHTML, customCode, customStyle, extensions } = {} } = {}) => {
+module.exports = (app, { title, favicon, logo, directory, options: { security: { csp } = {}, analytics, customMarkdownParser, customHTML: { head: customHTMLHead, body: customHTMLBody } = {}, customCode, customStyle, extensions } = {} } = {}) => {
   let isValidURL = (urlString) => {
 		let url;
 		try { 
@@ -27,7 +27,8 @@ module.exports = (app, { title, favicon, logo, directory, options: { security: {
   if (!isValidURL(favicon)) fs.createReadStream(favicon || "./favicon.ico").pipe(fs.createWriteStream("./node_modules/express-documentation/src/favicon." + favicon.split(".").at(-1)));
   if (!isValidURL(logo)) fs.createReadStream(logo || "logo.png").pipe(fs.createWriteStream("./node_modules/express-documentation/src/logo." + logo.split(".").at(-1)));
   if (customMarkdownParser) fs.writeFileSync("./node_modules/express-documentation/src/customMarkdownParser.js", customMarkdownParser.toString(), "utf8");
-  if (customHTML) fs.writeFileSync("./node_modules/express-documentation/src/customHTML.html", customHTML, "utf8");
+  if (customHTMLHead) fs.writeFileSync("./node_modules/express-documentation/src/customHTMLHead.html", customHTMLHead, "utf8");
+  if (customHTMLBody) fs.writeFileSync("./node_modules/express-documentation/src/customHTMLBody.html", customHTMLBody, "utf8");
   if (customCode) fs.writeFileSync("./node_modules/express-documentation/src/customCode.js", customCode.toString(), "utf8");
   if (customStyle) fs.writeFileSync("./node_modules/express-documentation/src/customStyle.css", customStyle, "utf8");
   app.set("views", process.cwd());
@@ -47,9 +48,12 @@ module.exports = (app, { title, favicon, logo, directory, options: { security: {
         ...(customMarkdownParser) ? [
           "customMarkdownParser"
         ] : [],
-        ...(customHTML) ? [
-          "customHTML"
+        ...(customHTMLHead) ? [
+          "customHTMLHead"
         ] : [],
+        ...(customHTMLBody) ? [
+          "customHTMLBody"
+        ]: [],
         ...(customCode) ? [
           "customCode"
         ] : [],

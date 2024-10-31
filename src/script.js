@@ -81,8 +81,18 @@ let layoutDirectory = (layoutDirectoryInput, layoutDirectoryElement) => layoutDi
 
 layoutDirectory(directoryLayout, document.getElementById("directoryLayoutContainer"));
 
-if (enabledOptions.includes("customHTML")) {
-  fetch("/expressDocsAssets/customHTML.html")
+if (enabledOptions.includes("customHTMLHead")) {
+  fetch("/expressDocsAssets/customHTMLHead.html")
+  .then((response) => response.text())
+  .then((response) => {
+    let customHTMLContainer = document.createElement("div");
+    customHTMLContainer.innerHTML = response;
+    document.head.appendChild(customHTMLContainer);
+  });
+};
+
+if (enabledOptions.includes("customHTMLBody")) {
+  fetch("/expressDocsAssets/customHTMLBody.html")
   .then((response) => response.text())
   .then((response) => {
     let customHTMLContainer = document.createElement("div");
@@ -95,6 +105,6 @@ if (enabledOptions.includes("customCode")) {
   fetch("/expressDocsAssets/customCode.js")
   .then((response) => response.text())
   .then((response) => {
-    eval("(async () => {" + response + "})();");
+    eval(((new RegExp("/^(function\s*\w*\s*\([^)]*\)\s*{[\s\S]*}|^\([^)]*\)\s*=>|^\w+\s*=>)/")).test(response)) ? ("(async () => (" + response + ")())();") : ("(async () => {" + response + "})();"));
   });
 };

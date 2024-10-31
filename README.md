@@ -77,7 +77,7 @@ app.use("/docs", expressDocs(app, {
 | 🥷 Security (Content Security Policy) |
 | 🧭 Analytics |
 | 📲 Custom Markdown Parser |
-| 🎨 Custom HTML |
+| 🎨 Custom HTML (Head or Body) |
 | ⏱️ Custom Code |
 | 👨‍💻 Custom Style |
 | 💱 Extensions |
@@ -92,7 +92,10 @@ app.use("/docs", expressDocs(app, {
     },
     analytics: ``, // --> Google Analytics tracking id
     customMarkdownParser: () => {}, // --> return value in plain HTML
-    customHTML: ``, // --> plain HTML,
+    customHTML: {
+      head: ``,
+      body: ``
+    }, // --> plain HTML,
     customCode: () => {}, // --> JavaScript function
     customStyle: ``, // --> plain CSS
     extensions: [
@@ -128,14 +131,19 @@ app.use("/", expressDocs(app, {
     customMarkdownParser: (markdownContent) => `
       <div style="font-family: system-ui">${markdownContent}</div>
     `,
-    customHTML: `
-      <div style="
-        font-family: system-ui;
-        position: fixed;
-        right: 7.5px;
-        padding-top: calc(100vh - 27.5px);
-      ">Made by Express Docs</div>
-    `,
+    customHTML: {
+      head: `
+        <meta name="description" content="Express Docs Example">
+      `,
+      body: `
+        <div style="
+          font-family: system-ui;
+          position: fixed;
+          right: 7.5px;
+          padding-top: calc(100vh - 27.5px);
+        ">Made by Express Docs</div>
+     `
+    },
     customCode: () => {
       console.log("This documentation page was made by Express Docs.");
     }
