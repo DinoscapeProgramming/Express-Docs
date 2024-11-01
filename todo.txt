@@ -1,1 +1,5 @@
+- Add alt tags to images
+- Add dark mode
+- Add better markdown styling (syntax highlighting, etc.)
 - Cache and prerender docs markdown
+- Preload cloudflare cdn
