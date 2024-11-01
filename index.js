@@ -40,8 +40,8 @@ module.exports = (app, { title, favicon, logo, directory, options: { security: {
     if (csp) res.setHeader("Content-Security-Policy", csp);
     res.render("node_modules/express-documentation/src/index.ejs", {
       title: title || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).productName || (JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8") || "{}") || {}).name.split("-").map((namePiece) => namePiece[0].toUpperCase() + namePiece.slice(1)) || "Documentation",
-      [(isValidURL(favicon)) ? "faviconURL" : "faviconFileExtension"]: (isValidURL(favicon)) ? favicon : (favicon || "./favicon.ico").split(".").at(-1),
-      [(isValidURL(logo)) ? "logoURL" : "logoFileExtension"]: (isValidURL(logo)) ? logo: (logo || "logo.png").split(".").at(-1),
+      favicon: (isValidURL(favicon)) ? favicon : ("/expressDocsAssets/logo." + (favicon || "./favicon.ico").split(".").at(-1)),
+      logo: (isValidURL(logo)) ? logo: ("/expressDocsAssets/favicon." + (logo || "logo.png").split(".").at(-1)),
       directoryLayout: JSON.stringify(layoutDirectory(directory || "./docs")),
       analytics,
       enabledOptions: JSON.stringify([

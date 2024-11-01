@@ -34,7 +34,7 @@
         <link rel="stylesheet" href="/expressDocsAssets/customStyle.css">
       <%
     } %>
-    <link rel="icon" href="<%= faviconURL || ('/expressDocsAssets/favicon.' + faviconFileExtension) %>" />
+    <link rel="icon" href="<%= favicon %>" />
     <style>
       .searchBarButton:hover {
         background-color: #d9d9d9 !important;
@@ -98,7 +98,7 @@
     >
       <div style="padding: 10px; border-bottom: 1px solid #dbdbdb">
         <img
-          src="<%= logoURL || ('/expressDocsAssets/logo.' + logoFileExtension) %>"
+          src="<%= logo %>"
           style="width: 260px"
         />
         <button
